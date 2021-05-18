@@ -20,7 +20,7 @@ from sklearn.metrics import classification_report, confusion_matrix
 st.header('Marketing and Customer Analytics')
 
 # Password-Protect the app and specify scenarios
-password = st.sidebar.text_input("Enter Password", type="password")
+password = st.sidebar.text_input("Enter Password")
 if password == 'coffee':
     # Create a file uploader and specify actions if uploaded/not
     uploaded_file = st.sidebar.file_uploader("Please upload the latest version of the 'marketing_data.csv' File:")
