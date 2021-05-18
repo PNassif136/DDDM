@@ -32,8 +32,6 @@ if password == 'coffee':
 elif password != 'coffee':
     st.warning('Access Denied - Enter Correct Password')
     st.stop()
-   
-ip=ip.replace(".","[.]")
 
 ## DATA CLEANING
 
