@@ -78,70 +78,67 @@ with st.beta_expander("Summary Statistics"):
 
 ## EXPLORATORY ANALYSIS
 
-if option == "Exploratory Analysis":               #If this section is selected
-    with st.beta_container():                      #Creates a container/box of graphs so they look like a dashboard
-        col1, col2= st.beta_columns([1.5,1])       #Creates 2 side-by-side graphs, with col1 slightly bigger than col2
+with st.beta_container():                      #Creates a container/box of graphs so they look like a dashboard
+          col1, col2= st.beta_columns([1.5,1])
+          col3, col4= st.beta_columns([1.5,1])#Creates 2 side-by-side graphs, with col1 slightly bigger than col2
 
         # Which generation is responding the most to marketing campaigns?
-        with col1:
-            year = pd.Series(df['Birth_Year'])
-            df['Decade_Birth'] = (np.floor(year / 10) * 10).astype('int64')
-            responded = df.groupby('Decade_Birth', as_index=False)['Response'].mean()
+with col1:
+          year = pd.Series(df['Birth_Year'])
+          df['Decade_Birth'] = (np.floor(year / 10) * 10).astype('int64')
+          responded = df.groupby('Decade_Birth', as_index=False)['Response'].mean()
 
-            fig1 = px.line(responded, x="Decade_Birth", y="Response",
+          fig1 = px.line(responded, x="Decade_Birth", y="Response",
                       title = "Campaign Response Rate by Generation")
-            fig1.layout.update(height=450, width=450, xaxis_title='Generation', yaxis_title='Response Rate',
+          fig1.layout.update(height=450, width=450, xaxis_title='Generation', yaxis_title='Response Rate',
                                 xaxis_showgrid=False, yaxis_showgrid=False)
-            fig1.update_traces(line=dict(width=2))        #Changes line width
-            st.write(fig1)
+          fig1.update_traces(line=dict(width=2))        #Changes line width
+          st.write(fig1)
 
-        # Which countries do most of our customers come from?
-        with col2:
-            labels = df['Country'].unique()
-            values = df['Country'].value_counts()
-            fig2 = go.Figure(data=[go.Pie(labels=labels, values=values,
+        # Which countries do most of our customers come from
+with col2:
+          labels = df['Country'].unique()
+          values = df['Country'].value_counts()
+          fig2 = go.Figure(data=[go.Pie(labels=labels, values=values,
                                      textinfo='label+percent'
                                      )])
-            fig2.layout.update(height=450, width=450,showlegend=False,          #Scales graph & removes legend
+          fig2.layout.update(height=450, width=450,showlegend=False,          #Scales graph & removes legend
                             title="Top Countries of Origin", title_x = 0.5,    #Sets title & centers it
                             xaxis_showgrid=False, yaxis_showgrid=False)
-            st.write(fig2)
+          st.write(fig2)
 
-
-        # Now for the second half of the dashboard
-        col3, col4= st.beta_columns([1.5,1])
 
         # What are the educational levels of our targets?
-        with col3:
-            fig3 = px.histogram(df, x='Education', color="Education")
-            fig3.layout.update(yaxis_title='Total Count', xaxis_title='Education Level',
+with col3:
+          fig3 = px.histogram(df, x='Education', color="Education")
+          fig3.layout.update(yaxis_title='Total Count', xaxis_title='Education Level',
                             showlegend=False, title="Educational Level of Targets",
                             height=450, width=450,
                             xaxis_showgrid=False, yaxis_showgrid=False)
-            st.write(fig3)
+          st.write(fig3)
 
         # How are the income brackets distributed?
-        with col4:
-            income = pd.Series(df['Income'])
-            df['Income_Bracket'] = (np.floor(income / 1000) * 1000).astype('int64')
-            fig4 = px.histogram(df, x='Income_Bracket')
-            fig4.layout.update(yaxis_title='Total Count', xaxis_title='Income Bracket',
+with col4:
+          income = pd.Series(df['Income'])
+          df['Income_Bracket'] = (np.floor(income / 1000) * 1000).astype('int64')
+          fig4 = px.histogram(df, x='Income_Bracket')
+          fig4.layout.update(yaxis_title='Total Count', xaxis_title='Income Bracket',
                             showlegend=False, title="Distribution of Income Brackets",
                             height=450, width=450,
                             xaxis_showgrid=False, yaxis_showgrid=False)
-            st.write(fig4)
+          st.write(fig4)
 
         ## Interpretation of visuals
-        st.warning('Key Takeaways:')
+st.warning('Key Takeaways:')
         # idx() returns the index/label of the associated value
-        st.write('(1) It looks like most of our customers originate from', values.idxmax(), 'with a total count of ',
-                values.max(), 'people. In contrast, we should focus on improving our reach with \
-                customers from ', values.idxmin(), '(Only ', values.min(), '!).')
+st.write('(1) It looks like most of our customers originate from', values.idxmax(), 'with a total count of ',
+values.max(), 'people. In contrast, we should focus on improving our reach with \
+customers from ', values.idxmin(), '(Only ', values.min(), '!).')
 
         # We will an additional variable to extract max() for the line graph
-        resp_v = responded.sort_values('Response', ascending=False)    #Sorts values in descending order for accurate indexing
+resp_v = responded.sort_values('Response', ascending=False)    #Sorts values in descending order for accurate indexing
 
-        st.write('(2) Elsewhere, people born in the following decade were the most receptive to our campaigns:',
+st.write('(2) Elsewhere, people born in the following decade were the most receptive to our campaigns:',
                 resp_v.iloc[0],                                        #Selects first row, which is sorted as max response rate
                 'We might need to look further into the following generation\'s alarmingly low response rate:',
                 resp_v.iloc[-1],
@@ -149,17 +146,17 @@ if option == "Exploratory Analysis":               #If this section is selected
                 lack of proper testing, or underwhelming calls to action.')
 
         # Let's calculate the quartiles to determine the IQR
-        Q1 = np.percentile(df['Income_Bracket'], 25)
-        Q3 = np.percentile(df['Income_Bracket'], 75)
+Q1 = np.percentile(df['Income_Bracket'], 25)
+Q3 = np.percentile(df['Income_Bracket'], 75)
 
-        st.write('(3) In terms of income, it appears that the histogram follows a Normal Distribution, and the majority \
+st.write('(3) In terms of income, it appears that the histogram follows a Normal Distribution, and the majority \
         of user income ranges between ', Q1, 'and ', Q3, 'per year.')
 
         # One last variable for the fourth graph
-        edu_l = df['Education'].unique()
-        edu_v = df['Education'].value_counts()
+edu_l = df['Education'].unique()
+edu_v = df['Education'].value_counts()
 
-        st.write('(4) Higher education is a recurring theme when it comes to education demographics. Indeed, ',
+st.write('(4) Higher education is a recurring theme when it comes to education demographics. Indeed, ',
         edu_v.max(), ' users have a ', edu_v.idxmax(), 'degree, with ', edu_l[1],'(', edu_v[1], ') ' 'and', edu_l[2],
         ' holders in second and third place respectively. Relatively speaking, very few people (', edu_v.min(), ') have ',
         edu_v.idxmin(), ' education.')
@@ -361,31 +358,28 @@ ax.set_xlabel("Predicted")
 ax.set_ylabel("Actual")
 
 # Time to design the ML section on the app
-if option == "Machine Learning":
-    from PIL import Image
-    image = Image.open('line.png')    #Image of a line to separate new section from overview
-    st.image(image)
+from PIL import Image
+image = Image.open('line.png')    #Image of a line to separate new section from overview
+st.image(image)
 
-    st.write("Machine Learning Magic! The transformed dataset has: ", df.shape[0], " records and ", df.shape[1], " features")
+st.write("Machine Learning Magic! The transformed dataset has: ", df.shape[0], " records and ", df.shape[1], " features")
+st.warning("Let's dive into model performance and evaluation")
 
-    st.warning("Let's dive into model performance and evaluation")
-
-    st.write('Which model returned the best performance?', compare)
-    scores_l = {'Gradient Boosting Regressor':boost_scores.mean() , 'Random Forest Regressor':forest_scores.mean(),
+st.write('Which model returned the best performance?', compare)
+scores_l = {'Gradient Boosting Regressor':boost_scores.mean() , 'Random Forest Regressor':forest_scores.mean(),
                 'Decision Tree Regressor':tree_scores.mean(), 'Linear Regression':lr_scores.mean()}
-    st.write('By the looks of things, it is recommended to select ', max(scores_l),
+st.write('By the looks of things, it is recommended to select ', max(scores_l),
                 'with an average RMSE of ', scores_l.get(max(scores_l)))
 
-    col5, col6= st.beta_columns([2,3])
-    with col5:
-        st.pyplot(fig)
-    with col6:
-        # Assess feature importance according to ML
-        ranking = np.argsort(-rfr.feature_importances_)
-        sns.set()
-        plt.rcParams['figure.figsize'] = [8,8]
-        fig, ax = plt.subplots()
-        ax = sns.barplot(x=rfr.feature_importances_[ranking], y=X_train.columns.values[ranking], orient='h')
-        ax.set_xlabel("Feature Importance")
-        plt.tight_layout()
-        st.pyplot(fig)
+col5, col6= st.beta_columns([2,3])
+with col5:
+          st.pyplot(fig)
+with col6:
+          ranking = np.argsort(-rfr.feature_importances_)
+          sns.set()
+          plt.rcParams['figure.figsize'] = [8,8]
+          fig, ax = plt.subplots()
+          ax = sns.barplot(x=rfr.feature_importances_[ranking], y=X_train.columns.values[ranking], orient='h')
+          ax.set_xlabel("Feature Importance")
+          plt.tight_layout()
+          st.pyplot(fig)
