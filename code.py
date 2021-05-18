@@ -29,9 +29,9 @@ if password == 'Paul':
             st.success('Welcome to the Interactive Dashboard!')
     elif uploaded_file is None:
         st.stop()    # Prevents throwing a NameError before uploading the file by stopping execution
-elif password != 'Paul':
-    st.warning('Access Denied - Enter Correct Password')
-    st.stop()
+#elif password != 'Paul':
+    #st.warning('Access Denied - Enter Correct Password')
+    #st.stop()
 
 ## DATA CLEANING
 
