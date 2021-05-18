@@ -77,7 +77,7 @@ with st.beta_expander("Summary Statistics"):
     st.write(df.describe())
 
 # Create selectbox to choose appropriate section
-option = st.sidebar.radio('What would you like to do?',
+option = st.radio('What would you like to do?',
                 ('Nothing', 'Exploratory Analysis', 'Machine Learning'))
                 # I want the user to notice and select before anything appears, so the default is 'Nothing'
 
