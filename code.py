@@ -72,15 +72,6 @@ df['Education'].replace({'Graduation': 'Bachelor', '2n Cycle': 'Maisteri'}, inpl
 # Display the number of rows and columns in a sentence
 st.write("This dataset has: ", df.shape[0], " records and ", df.shape[1], " features")
 
-# Add a slider that filters total number of records and updates all subsequent values
-records = st.sidebar.slider('Select total desired records', df.shape[0], 1, df.shape[0])
-df = df.iloc[0:records]
-
-# Display df.head() under an expandable tab
-with st.beta_expander("Quick Glance"):
-    glance = st.slider('Select desired number of records to display', min_value=1, max_value=100, value=5)
-    st.write(df.head(glance))
-
 # Review the summary statistics under an expandable tab
 with st.beta_expander("Summary Statistics"):
     st.write(df.describe())
