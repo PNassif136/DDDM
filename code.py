@@ -20,7 +20,8 @@ from sklearn.metrics import classification_report, confusion_matrix
 st.header('Marketing and Customer Analytics')
 
 # Password-Protect the app and specify scenarios
-password = st.sidebar.text_input("Enter Password", type="password", key="1")
+password_placeholder = st.empty()
+password = st.sidebar.password_placeholder.text_input("Enter Password", type="password")
 if password == 'Paul':
     # Create a file uploader and specify actions if uploaded/not
     uploaded_file = st.sidebar.file_uploader("Please upload the latest version of the 'marketing_data.csv' File:")
@@ -29,9 +30,9 @@ if password == 'Paul':
             st.success('Welcome to the Interactive Dashboard!')
     elif uploaded_file is None:
         st.stop()    # Prevents throwing a NameError before uploading the file by stopping execution
-#elif password != 'Paul':
-    #st.warning('Access Denied - Enter Correct Password')
-    #st.stop()
+elif password != 'Paul':
+    st.warning('Access Denied - Enter Correct Password')
+    st.stop()
 
 ## DATA CLEANING
 
