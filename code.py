@@ -76,11 +76,6 @@ st.write("This dataset has: ", df.shape[0], " records and ", df.shape[1], " feat
 with st.beta_expander("Summary Statistics"):
     st.write(df.describe())
 
-# Create selectbox to choose appropriate section
-option = st.radio('What would you like to do?',
-                ('Nothing', 'Exploratory Analysis', 'Machine Learning'))
-                # I want the user to notice and select before anything appears, so the default is 'Nothing'
-
 ## EXPLORATORY ANALYSIS
 
 if option == "Exploratory Analysis":               #If this section is selected
